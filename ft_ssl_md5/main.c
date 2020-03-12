@@ -6,9 +6,177 @@
 /*   By: jerbs <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/11 15:05:21 by jerbs             #+#    #+#             */
-/*   Updated: 2020/03/11 15:07:48 by jerbs            ###   ########.fr       */
+/*   Updated: 2020/03/11 17:21:33 by jerbs            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#define AV av[1]
+#include <stdlib.h>
+#include <unistd.h>
+#include <stdio.h>
+/*
+void	*ft_memset(void *b, int c, size_t len)
+{
+	size_t			i;
+	unsigned char	*str;
+
+	str = (unsigned char *)b;
+	i = 0;
+	if (!str)
+		return (NULL);
+	while (i < len)
+	{
+		str[i] = (unsigned char)c;
+		i++;
+	}
+	return (b);
+}
+
+void		ft_bzero(void *s, size_t n)
+{
+	if (n == 0)
+		return ;
+	ft_memset(s, 0, n);
+}
+
+char	*ft_strnew(size_t size)
+{
+	char *str;
+
+	if (!(str = (char *)malloc(sizeof(char) * size + 1)))
+		return (NULL);
+	ft_bzero(str, size);
+	str[size] = '\0';
+	return (str);
+}
+*/
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// STEP (1) -> av[1] to binary_str
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
+
+char	*ft_strjoin_free2(char *s1, char *s2)
+{
+	char	*str;
+	int		i;
+	int		k;
+
+	if (!s1 || !s2)
+		return (NULL);
+	if (!(str = (char *)malloc(sizeof(char) *
+	(ft_strlen(s1) + ft_strlen(s2) + 1))))
+		return (NULL);
+	i = 0;
+	k = 0;
+	while (s1[k])
+		str[i++] = s1[k++];
+	k = 0;
+	while (s2[k])
+	{
+		str[i] = s2[k];
+		i++;
+		k++;
+	}
+	str[i] = 0;
+	free(s1);
+	free(s2);
+	return (str);
+}
+
+char	*zero_str(char *s, int nb_char)
+{
+	int i;
+
+	i = 0;
+	if (!s)
+		return (NULL);
+	s[nb_char] = 0;
+	while (nb_char != 0)
+	{	
+		s[i] = '0';
+		i++;
+		nb_char--;
+	}
+	return (s);
+}
+
+
+
+char *cv_uchar_to_bin_str(int c)
+{
+	int		r;
+	char	*c_bin;
+	int		i;
+
+	i = 0;
+	c_bin = (char *)malloc(sizeof(char) * 9);
+	zero_str(c_bin, 8);
+	//printf("%s\n", zero_str(c_bin, 8));
+	while (c > 0)
+	{
+		r = c % 2;
+		c_bin[7 - i] = r + 48;
+		i++;
+		c = (c - r) / 2;
+	}
+	c_bin[8] = 0;
+	return (c_bin);
+}
+
+char *str_to_binstr(char *s)
+{
+	char	*bin_str;
+	int		i;
+
+	i = 1;
+	bin_str = cv_uchar_to_bin_str(s[0]);
+	while (s[i])
+	{
+	//printf("%s", cv_uchar_to_bin_str(s[i]));
+		bin_str = ft_strjoin_free2(bin_str, cv_uchar_to_bin_str(s[i]));
+		i++;
+	}
+//	printf("%s", bin_str);
+	return (bin_str);
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// END STEP (1)
+
+
+/*
+int main(int ac, char **av)
+{
+	int		i;
+	char	*total;
+
+	if (ac != 2)
+		return (0);
+	i = 0;
+	while (AV[i])
+	{
+		
+	}
+}
+*/
+
+
+int main(int ac, char **av)
+{
+	(void)ac;
+//	char *s;
+
+	//s = (char *)malloc(sizeof(char) * 6 + 1);
+	
+	//printf("%s\n", zero_str(s, 6));
+	//printf("%s\n", cv_uchar_to_bin_str(AV[0]));
+	printf("%s\n", str_to_binstr(AV));
+}
+
 
 
 /*
